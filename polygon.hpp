@@ -4,7 +4,7 @@
 #include <cassert>
 #include "vector.hpp"
 #include "segment.hpp"
-#include "algorithms.hpp" // cross_product-ի համար
+#include "algorithms.hpp" 
 
 namespace geom {
 
@@ -17,12 +17,10 @@ namespace geom {
         std::vector<point_type> m_vertices;
 
     public:
-        // --- Կոնստրուկտոր ---
         Polygon(const std::vector<point_type>& vertices) : m_vertices(vertices) {
             assert(m_vertices.size() >= 3 && "Polygon must have at least 3 vertices.");
         }
 
-        // --- Հասանելիության մեթոդներ ---
         size_t num_vertices() const {
             return m_vertices.size();
         }
@@ -31,18 +29,12 @@ namespace geom {
             return m_vertices;
         }
 
-        // Վերադարձնում է i-րդ կողմը (հատվածը)
         Segment<Dim, T> edge(size_t i) const {
             assert(i < num_vertices() && "Edge index out of bounds.");
-            // Վերջին կողմը միացնում է վերջին գագաթը առաջինին
             return Segment<Dim, T>(m_vertices[i], m_vertices[(i + 1) % num_vertices()]);
         }
 
-        // --- Երկրաչափական մեթոդներ (Ալգորիթմներ) ---
-
-        // 2D բազմանկյան մակերեսի հաշվարկ (Shoelace formula)
         T area() const {
-            // Այս մեթոդը իմաստ ունի միայն 2D-ի համար
             static_assert(Dim == 2, "Area calculation is only implemented for 2D polygons.");
 
             T total_area = 0;
@@ -55,11 +47,11 @@ namespace geom {
         }
     };
 
-    // --- Տիպերի այլանուններ ---
     template<typename T> using Polygon2 = Polygon<2, T>;
     template<typename T> using Polygon3 = Polygon<3, T>;
 
     using Polygon2d = Polygon2<double>;
     using Polygon3d = Polygon3<double>;
+
 
 } // namespace geom
