@@ -1,12 +1,11 @@
 ﻿#include <iostream>
 #include "vector.hpp"
-#include "line.hpp"   // *** ՆՈՐ ԸՆԴԳՐԿՈՒՄ ***
+#include "line.hpp"
 #include "algorithms.hpp"
 #include "segment.hpp"
 #include "polygon.hpp"
 #include "ray.hpp"
 
-// Նախորդ թեստերը տեղափոխում ենք իրենց ֆունկցիայի մեջ
 void run_vector_tests() {
     std::cout << "--- Running Vector/Point Tests ---" << std::endl;
 
@@ -43,16 +42,13 @@ void run_vector_tests() {
     std::cout << "--- Vector/Point Tests Finished ---\n" << std::endl;
 }
 
-// *** ՆՈՐ ՖՈՒՆԿՑԻԱ LINE-Ի ՀԱՄԱՐ ***
 void run_line_tests() {
     std::cout << "--- Running Line Tests ---" << std::endl;
 
     geom::Point2d p1(2, 2);
-    geom::Point2d p2(6, 5); // Vector p2-p1 is (4, 3), length is 5
+    geom::Point2d p2(6, 5); 
     geom::Line2d line = geom::Line2d::from_points(p1, p2);
 
-
-    // Test 1: Construction and Normalization
     geom::Vector2d expected_dir(0.8, 0.6); // (4,3) / 5 = (0.8, 0.6)
     std::cout << "Test 1.1: Line direction normalization... ";
     if (line.direction() == expected_dir) {
@@ -68,7 +64,6 @@ void run_line_tests() {
     else std::cout << "FAILED" << std::endl;
 
     std::cout << "Test 2.2: point_at(5) should be p2... ";
-    // t=5, because distance between p1 and p2 is 5, and direction is normalized.
     if (line.point_at(5) == p2) std::cout << "SUCCESS" << std::endl;
     else std::cout << "FAILED. Got " << line.point_at(5) << std::endl;
 
@@ -104,7 +99,6 @@ void run_line_tests() {
 
     // Test 5: Point-Line distance
     std::cout << "Test 5.1: Distance from p1 (on line) to line... ";
-    // p1 = (2,2), այն ուղղի վրա է, հեռավորությունը պետք է լինի 0
     if (geom::distance(p1, line) < geom::Coord<double>::Epsilon) {
         std::cout << "SUCCESS. Distance: " << geom::distance(p1, line) << std::endl;
     }
@@ -113,7 +107,6 @@ void run_line_tests() {
     }
 
     geom::Point2d p_for_dist(7, -2);
-    // (7,-2) կետից մինչև (6.16, 5.12) պրոյեկցիան ունեցող կետ հեռավորությունը 7.2 է
     double expected_dist = 7.2;
     std::cout << "Test 5.2: Distance from (7, -2) to line... ";
     if (std::abs(geom::distance(p_for_dist, line) - expected_dist) < geom::Coord<double>::Epsilon) {
@@ -187,7 +180,7 @@ void run_segment_tests() {
 }
 
 void run_intersection_tests() {
-    std::cout << "\n--- Running Intersection Tests ---" << std::endl;
+    std::cout << "--- Running Intersection Tests ---" << std::endl;
 
     using Status = geom::IntersectionResult2D<double>::Status;
 
@@ -229,7 +222,6 @@ void run_intersection_tests() {
     // Case 4: General intersection
     geom::Line2d l5 = geom::Line2d::from_points(geom::Point2d(2, 2), geom::Point2d(6, 5));   // y = 0.75x + 0.5
     geom::Line2d l6 = geom::Line2d::from_points(geom::Point2d(0, 5), geom::Point2d(6, 2));   // y = -0.5x + 5
-    // Intersection point calculated manually: (3.6, 3.2)
 
     std::cout << "Test 1.4: General intersection... ";
     auto result4 = geom::intersection(l5, l6);
@@ -305,7 +297,7 @@ void run_segment_intersection_tests() {
 }
 
 void run_polygon_tests() {
-    std::cout << "\n--- Running Polygon Tests ---" << std::endl;
+    std::cout << "--- Running Polygon Tests ---" << std::endl;
 
     // Case 1: Simple square
     std::vector<geom::Point2d> square_vertices = {
@@ -343,7 +335,6 @@ void run_polygon_tests() {
     // Case 2: Triangle
     std::vector<geom::Point2d> triangle_vertices = { {0,0}, {10,0}, {5,5} };
     geom::Polygon2d triangle(triangle_vertices);
-    // Area = 0.5 * base * height = 0.5 * 10 * 5 = 25
     std::cout << "Test 2.2: Area of a triangle... ";
     if (std::abs(triangle.area() - 25.0) < geom::Coord<double>::Epsilon) {
         std::cout << "SUCCESS. Area: " << triangle.area() << std::endl;
@@ -357,9 +348,9 @@ void run_convex_hull_tests() {
     std::cout << "\n--- Running Convex Hull Tests ---" << std::endl;
 
     std::vector<geom::Point2d> points = {
-        {0, 0}, {5, 1}, {10, 0}, // Lower part
-        {1, 5}, {9, 5},         // Upper part
-        {5, 2}, {3, 3}, {7, 3}  // Internal points
+        {0, 0}, {5, 1}, {10, 0},
+        {1, 5}, {9, 5},         
+        {5, 2}, {3, 3}, {7, 3} 
     };
 
     auto hull_polygon_opt = geom::convex_hull(points);
@@ -413,16 +404,16 @@ void run_convex_hull_tests() {
     std::cout << "--- Convex Hull Tests Finished ---" << std::endl;
 }
 void run_point_in_polygon_tests() {
-    std::cout << "\n--- Running Point in Polygon Tests ---" << std::endl;
+    std::cout << "--- Running Point in Polygon Tests ---" << std::endl;
 
     std::vector<geom::Point2d> vertices = { {0,0}, {10,0}, {10,10}, {5,15}, {0,10} };
     geom::Polygon2d poly(vertices);
 
     geom::Point2d p_inside(5, 5);
     geom::Point2d p_outside(15, 15);
-    geom::Point2d p_on_edge(10, 5); // on the edge from (10,0) to (10,10)
+    geom::Point2d p_on_edge(10, 5); 
     geom::Point2d p_on_vertex(0, 0);
-    geom::Point2d p_tricky_case(6, 12); // near the concave vertex
+    geom::Point2d p_tricky_case(6, 12);
 
     std::cout << "Test 1.1: Point inside... ";
     if (geom::contains(p_inside, poly)) std::cout << "SUCCESS" << std::endl;
@@ -449,7 +440,7 @@ void run_point_in_polygon_tests() {
 
 
 void run_ray_tests() {
-    std::cout << "\n--- Running Ray Tests ---" << std::endl;
+    std::cout << "--- Running Ray Tests ---" << std::endl;
 
     geom::Ray2d ray = geom::Ray2d::from_points({ 1, 1 }, { 5, 4 });
     // Origin is (1,1). Direction is vector (4,3), normalized to (0.8, 0.6)
@@ -464,10 +455,10 @@ void run_ray_tests() {
     else std::cout << "FAILED" << std::endl;
 
     // Test 2: Contains
-    geom::Point2d p_on_ray = ray.point_at(10); // A point definitely on the ray
+    geom::Point2d p_on_ray = ray.point_at(10); 
     geom::Point2d p_origin = ray.origin();
-    geom::Point2d p_behind = ray.origin() - ray.direction(); // A point "behind" the origin
-    geom::Point2d p_off_line(5, 5); // A point not on the supporting line
+    geom::Point2d p_behind = ray.origin() - ray.direction(); 
+    geom::Point2d p_off_line(5, 5); 
 
     std::cout << "Test 2.1: Contains point on ray... ";
     if (ray.contains(p_on_ray)) std::cout << "SUCCESS" << std::endl;
@@ -493,7 +484,7 @@ void run_mixed_intersection_tests() {
     std::cout << "\n--- Running Mixed Intersection Tests ---" << std::endl;
     using Status = geom::SegmentIntersectionResult2D<double>::Status;
 
-    geom::Line2d line = geom::Line2d::from_points({ 0, 5 }, { 10, 5 }); // Horizontal line y=5
+    geom::Line2d line = geom::Line2d::from_points({ 0, 5 }, { 10, 5 });
 
     // Case 1: Line intersects segment
     geom::Segment2d seg1({ 5, 0 }, { 5, 10 });
@@ -526,32 +517,25 @@ void run_mixed_intersection_tests() {
 
     std::cout << "--- Mixed Intersection Tests Finished ---" << std::endl;
 
-    // ... run_mixed_intersection_tests() ֆունկցիայի ներսում ...
-// ... seg3-ի թեստից հետո ...
-
-     // --- Line-Ray Tests ---
-    // *** ՈՒՂՂՎԱԾ Է ***
-    geom::Ray2d ray = geom::Ray2d::from_point_direction({ 5, 0 }, { 0, 1 }); // Vertical ray starting at (5,0) going upwards
+    geom::Ray2d ray = geom::Ray2d::from_point_direction({ 5, 0 }, { 0, 1 }); 
 
     std::cout << "Test 2.1: Line intersects ray... ";
-    auto res4 = geom::intersection(line, ray); // line is y=5
+    auto res4 = geom::intersection(line, ray); 
     if (res4.status == Status::INTERSECTING && res4.point.value() == geom::Point2d(5, 5)) {
         std::cout << "SUCCESS" << std::endl;
     }
     else { std::cout << "FAILED" << std::endl; }
 
-    // *** ՈՒՂՂՎԱԾ Է ***
     std::cout << "Test 2.2: Line misses ray (intersects behind)... ";
-    geom::Ray2d ray2 = geom::Ray2d::from_point_direction({ 5, 6 }, { 0, 1 }); // Starts above the line
+    geom::Ray2d ray2 = geom::Ray2d::from_point_direction({ 5, 6 }, { 0, 1 });
     auto res5 = geom::intersection(line, ray2);
     if (res5.status == Status::NO_INTERSECTION) {
         std::cout << "SUCCESS" << std::endl;
     }
     else { std::cout << "FAILED" << std::endl; }
 
-    // *** ՈՒՂՂՎԱԾ Է ***
     std::cout << "Test 2.3: Ray coincident with line... ";
-    geom::Ray2d ray3 = geom::Ray2d::from_point_direction({ -2, 5 }, { 1, 0 }); // Coincident, goes right
+    geom::Ray2d ray3 = geom::Ray2d::from_point_direction({ -2, 5 }, { 1, 0 }); 
     auto res6 = geom::intersection(line, ray3);
     if (res6.status == Status::OVERLAPPING) {
         std::cout << "SUCCESS" << std::endl;
@@ -561,16 +545,12 @@ void run_mixed_intersection_tests() {
 
     std::cout << "--- Mixed Intersection Tests Finished ---" << std::endl;
 
-    // ... run_mixed_intersection_tests() ֆունկցիայի ներսում ...
-// ... ray3-ի թեստից հետո ...
+    std::cout << std::endl;
 
-    std::cout << std::endl; // Add a separator
-
-    // --- Segment-Ray Tests ---
     geom::Segment2d seg({ -5, 0 }, { 5, 10 });
 
     std::cout << "Test 3.1: Segment intersects ray... ";
-    geom::Ray2d ray_s1 = geom::Ray2d::from_point_direction({ -10, 5 }, { 1, 0 }); // Horizontal ray from left
+    geom::Ray2d ray_s1 = geom::Ray2d::from_point_direction({ -10, 5 }, { 1, 0 }); 
     auto res7 = geom::intersection(seg, ray_s1);
     if (res7.status == Status::INTERSECTING && res7.point.value() == geom::Point2d(0, 5)) {
         std::cout << "SUCCESS" << std::endl;
@@ -578,7 +558,7 @@ void run_mixed_intersection_tests() {
     else { std::cout << "FAILED" << std::endl; }
 
     std::cout << "Test 3.2: Segment misses ray (ray starts after)... ";
-    geom::Ray2d ray_s2 = geom::Ray2d::from_point_direction({ 1, 5 }, { 1, 0 }); // Horizontal ray starts after intersection
+    geom::Ray2d ray_s2 = geom::Ray2d::from_point_direction({ 1, 5 }, { 1, 0 }); 
     auto res8 = geom::intersection(seg, ray_s2);
     if (res8.status == Status::NO_INTERSECTION) {
         std::cout << "SUCCESS" << std::endl;
@@ -594,18 +574,14 @@ void run_mixed_intersection_tests() {
     }
     else { std::cout << "FAILED" << std::endl; }
 
-
-    // ... ֆունկցիայի վերջը ...
 }
 
 
-
-// ... main() ֆունկցիայի մեջ ...
 int main() {
     run_vector_tests();
     run_line_tests();
     run_segment_tests();
-    run_intersection_tests(); // Ավելացնում ենք կանչը
+    run_intersection_tests();
     run_segment_intersection_tests();
     run_polygon_tests();
     run_convex_hull_tests();
@@ -613,4 +589,5 @@ int main() {
     run_ray_tests();
     run_mixed_intersection_tests();
     return 0;
+
 }
