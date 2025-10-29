@@ -12,11 +12,9 @@ namespace geom {
         using vector_type = Vector<Dim, T>;
 
     private:
-        // *** ՓՈՓՈԽՈՒԹՅՈՒՆ: Կոնստրուկտորը դարձել է private ***
-        // Սա մեր միակ, "կանոնական" կոնստրուկտորն է։
+ 
         Line(const point_type& origin, const vector_type& direction)
             : m_origin(origin), m_direction(direction) {
-            // Նորմալիզացիան կատարվում է այստեղ։
             this->m_direction.normalize();
         }
 
@@ -24,22 +22,17 @@ namespace geom {
         vector_type m_direction;
 
     public:
-        // *** ՓՈՓՈԽՈՒԹՅՈՒՆ: Ստեղծում ենք static factory functions ***
-
-        // 1. Ստեղծում է Line երկու կետով
         static Line from_points(const point_type& p1, const point_type& p2) {
             vector_type dir = p2 - p1;
             assert(dir.length_sq() > 0 && "Points for Line construction cannot be the same.");
-            return Line(p1, dir); // Կանչում է private կոնստրուկտորը
+            return Line(p1, dir); 
         }
 
-        // 2. Ստեղծում է Line կետով և ուղղորդող վեկտորով
         static Line from_point_direction(const point_type& origin, const vector_type& direction) {
             assert(direction.length_sq() > 0 && "Line direction vector cannot be zero.");
-            return Line(origin, direction); // Կանչում է private կոնստրուկտորը
+            return Line(origin, direction); 
         }
 
-        // Getters-ը և մնացած մեթոդները մնում են նույնը
         const point_type& origin() const { return this->m_origin; }
         const vector_type& direction() const { return this->m_direction; }
 
@@ -63,5 +56,6 @@ namespace geom {
 
     using Line2d = Line2<double>;
     using Line3d = Line3<double>;
+
 
 } // namespace geom
