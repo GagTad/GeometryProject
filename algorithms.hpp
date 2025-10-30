@@ -8,8 +8,8 @@
 #include <vector>    
 #include <algorithm>  
 #include "ray.hpp"
-namespace geom {
 
+namespace geom {
 
     template<size_t Dim, typename T>
     T distance(const Point<Dim, T>& p, const Line<Dim, T>& l) {
@@ -301,3 +301,4 @@ namespace geom {
     }
 
 } // namespace geom
+
