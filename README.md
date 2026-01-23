@@ -8,7 +8,7 @@ A high-performance **2D Pathfinding Engine** built from scratch using **C++17** 
 ![License](https://img.shields.io/badge/License-MIT-orange)
 
 
-<img width="762" height="411" alt="image" src="https://github.com/user-attachments/assets/26867909-3c0b-46ec-be23-625e7130546f" />
+<img width="562" height="411" alt="image" src="https://github.com/user-attachments/assets/26867909-3c0b-46ec-be23-625e7130546f" />
 
 ##  Overview
 
